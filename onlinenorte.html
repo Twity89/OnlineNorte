@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mercado de Juego Online en el Norte de Argentina</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Fondo suave */
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #1a202c;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: #4299e1; /* Color azul */
+            border-radius: 2px;
+        }
+        .subsection-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #edf2f7;
+            padding-bottom: 0.5rem;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .btn-primary {
+            background-color: #4299e1;
+            color: #ffffff;
+        }
+        .btn-primary:hover {
+            background-color: #3182ce;
+            transform: translateY(-2px);
+        }
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem 0.75rem 0 0;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #e2e8f0;
+            color: #4a5568;
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+        .tab-button.active {
+            background-color: #4299e1;
+            color: #ffffff;
+        }
+        .tab-content {
+            border: 1px solid #e2e8f0;
+            border-top: none;
+            padding: 1.5rem;
+            border-radius: 0 0 1rem 1rem;
+            background-color: #f7fafc;
+        }
+        .collapsible-header {
+            background-color: #f0f4f8;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: #2d3748;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .collapsible-header:hover {
+            background-color: #e2e8f0;
+        }
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            padding: 0 1.5rem;
+        }
+        .collapsible-content.open {
+            max-height: 500px; /* Ajustar según el contenido máximo esperado */
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .arrow-icon {
+            transition: transform 0.3s ease-in-out;
+        }
+        .collapsible-header.open .arrow-icon {
+            transform: rotate(90deg);
+        }
+        /* Estilos para la tabla de datos */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .data-table th, .data-table td {
+            border: 1px solid #e2e8f0;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        .data-table th {
+            background-color: #e2e8f0;
+            font-weight: bold;
+            color: #2d3748;
+        }
+        .data-table tbody tr:nth-child(even) {
+            background-color: #f7fafc;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="container">
+        <header class="text-center py-8 mb-8 bg-blue-600 text-white rounded-b-2xl shadow-lg">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-2">Mercado de Juego Online</h1>
+            <p class="text-xl md:text-2xl">Análisis en el Norte de Argentina</p>
+        </header>
+
+        <section class="card">
+            <h2 class="section-title">Objetivo de la Presentación</h2>
+            <p class="text-lg mb-4 text-center">
+                Este análisis busca ofrecer una visión clara y concisa del mercado de juego online en la región norte de Argentina, abordando los siguientes puntos clave:
+            </p>
+            <ul class="list-disc list-inside text-lg space-y-2 px-4 md:px-8">
+                <li>Identificación de operadores activos (legales e ilegales).</li>
+                <li>Características y requisitos de las licencias de juego online.</li>
+                <li>Estimación de la facturación de los operadores.</li>
+                <li>Análisis del tráfico y búsquedas por operador.</li>
+                <li>Panorama de los operadores ilegales y su impacto.</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2 class="section-title">Operadores Activos</h2>
+
+            <div class="mb-6">
+                <div class="flex justify-center mb-4">
+                    <button class="tab-button active" onclick="openTab(event, 'legales')">Operadores Legales</button>
+                    <button class="tab-button ml-2" onclick="openTab(event, 'ilegales')">Operadores Ilegales</button>
+                </div>
+
+                <div id="legales" class="tab-content">
+                    <h3 class="subsection-title">Operadores Legales (con presencia o licencia en el Norte)</h3>
+                    <p class="mb-4">El juego online en Argentina se regula a nivel provincial. A continuación, se listan operadores con presencia o licencias conocidas en el norte del país, o con una fuerte presencia a nivel nacional:</p>
+                    <ul class="list-disc list-inside text-md space-y-1">
+                        <li><strong>BetWarrior:</strong> Con licencia y operaciones en Salta, Jujuy y Catamarca, además de CABA, Buenos Aires y Mendoza.</li>
+                        <li><strong>GuazuBet:</strong> Único operador autorizado en Misiones.</li>
+                        <li><strong>loteriadesaltaonline.bet.ar:</strong> Plataforma habilitada para Salta.</li>
+                        <li><strong>palpitos.bet.ar:</strong> Plataforma habilitada para Tucumán.</li>
+                        <li><strong>casinosmacgroup.bet.ar:</strong> Plataforma habilitada para Jujuy.</li>
+                        <li><strong>New Star S.R.L.:</strong> Operador con experiencia en Salta, Tucumán, Jujuy, Catamarca, Misiones y Chaco (principalmente físico, pero con incursión en online).</li>
+                    </ul>
+                    <h3 class="subsection-title mt-6">Otros Operadores Legales Destacados a Nivel Nacional</h3>
+                    <ul class="list-disc list-inside text-md space-y-1">
+                        <li>Betano</li>
+                        <li>Betsson (activo en CABA y Buenos Aires)</li>
+                        <li>Bplay (líder en Santa Fe, CABA, Buenos Aires y Entre Ríos)</li>
+                        <li>Bet365</li>
+                        <li>City Center Rosario</li>
+                        <li>Casino Magic Neuquén</li>
+                        <li>Lotería de Misiones (a través de GuazuBet)</li>
+                        <li>Casino Club</li>
+                        <li>Casino Buenos Aires</li>
+                        <li>Betfun</li>
+                    </ul>
+                </div>
+
+                <div id="ilegales" class="tab-content hidden">
+                    <h3 class="subsection-title">Operadores Ilegales (Populares en Salta según Google Trends)</h3>
+                    <p class="mb-4">Estos operadores, aunque cuentan con licencias internacionales (como Curazao), no están regulados por las autoridades provinciales argentinas, operando en un "gris legal". Su popularidad se debe al boca a boca, redes sociales y influencers.</p>
+                    <ul class="list-disc list-inside text-md space-y-1">
+                        <li><strong>Stake – Casino en línea:</strong> <a href="https://stake.com/es" target="_blank" class="text-blue-600 hover:underline">stake.com/es</a></li>
+                        <li><strong>1xBet – Casino en línea:</strong> <a href="https://arg.1x-bet.com/es" target="_blank" class="text-blue-600 hover:underline">arg.1x-bet.com/es</a></li>
+                        <li><strong>1win – Casino en línea:</strong> <a href="https://1win-argentino.com/" target="_blank" class="text-blue-600 hover:underline">1win-argentino.com/</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2 class="section-title">Tipos de Licencias</h2>
+            <p class="mb-4 text-center">La regulación del juego online en Argentina es provincial, sin una ley federal unificada. Cada provincia establece sus propias normativas, requisitos y cánones.</p>
+
+            <div class="space-y-4">
+                <div class="collapsible-header" onclick="toggleCollapsible('licencia-caracteristicas')">
+                    Características y Requisitos Generales
+                    <span class="arrow-icon">&#9654;</span>
+                </div>
+                <div id="licencia-caracteristicas" class="collapsible-content">
+                    <ul class="list-disc list-inside text-md space-y-2">
+                        <li><strong>Publicidad Responsable:</strong> Clara, veraz, no engañosa, socialmente responsable, sin incentivar el juego patológico ni dirigirse a menores. Debe incluir leyendas sobre juego responsable.</li>
+                        <li><strong>Solvencia y Antecedentes:</strong> Acreditar solvencia técnica, económica y financiera, y un historial delictivo limpio.</li>
+                        <li><strong>Protección al Jugador:</strong> Implementar límites de depósito, autoexclusión y acceso a ayuda para el juego patológico. Protección de datos personales.</li>
+                        <li><strong>Control y Fiscalización:</strong> Sistemas (hardware/software) que permitan a las autoridades provinciales el control y fiscalización en tiempo real de operaciones y movimientos financieros.</li>
+                        <li><strong>Prohibición de Cesión:</strong> La licencia no puede ser cedida sin autorización previa de la autoridad reguladora.</li>
+                    </ul>
+                </div>
+
+                <div class="collapsible-header" onclick="toggleCollapsible('licencia-canon')">
+                    Canon y Tasas (Ejemplos Provinciales)
+                    <span class="arrow-icon">&#9654;</span>
+                </div>
+                <div id="licencia-canon" class="collapsible-content">
+                    <ul class="list-disc list-inside text-md space-y-2">
+                        <li><strong>Provincia de Buenos Aires:</strong> 2% de las utilidades brutas mensuales.</li>
+                        <li><strong>Córdoba:</strong> 34% del "net win" (ganancia neta).</li>
+                        <li><strong>Salta:</strong> Canon mensual y tasa de fiscalización según Ley N° 7.020.</li>
+                        <li><strong>Mendoza:S</strong> Canon único establecido por el Instituto Provincial de Juegos y Casinos.</li>
+                    </ul>
+                </div>
+
+                <div class="collapsible-header" onclick="toggleCollapsible('licencia-autoridades')">
+                    Autoridades Reguladoras en el Norte
+                    <span class="arrow-icon">&#9654;</span>
+                </div>
+                <div id="licencia-autoridades" class="collapsible-content">
+                    <ul class="list-disc list-inside text-md space-y-2">
+                        <li><strong>Salta:</strong> Ente Regulador del Juego de Azar (ENREJA), Ley 7020.</li>
+                        <li><strong>Jujuy:</strong> Instituto Provincial de Juegos de Azar de Jujuy (INPROJUY), Ley N° 6234/2021. Opera con dos licencias online.</li>
+                        <li><strong>Tucumán:</strong> Caja Popular de Ahorros (involucrada en autorización de ciertos juegos).</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2 class="section-title">Facturación de los Operadores</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h3 class="subsection-title">Estimación de Operadores Ilegales</h3>
+                    <p class="mb-4">
+                        Según estimaciones, aproximadamente el <strong>80% de los operadores activos en Argentina operan ilegalmente</strong>, sin licencia nacional. Solo el 20% funciona bajo protocolos locales.
+                    </p>
+                    <p class="mb-4">
+                        Un allanamiento reciente reveló una estimación de <strong>250 millones de pesos</strong> relacionados con operaciones ilegales. Esto subraya el volumen de negocio en el sector no regulado.
+                    </p>
+                    <p class="text-sm text-gray-600">
+                        Fuente: <a href="https://www.lanacion.com.ar/seguridad/medida-inedita-bloquearon-110-casinos-online-clandestinos-y-secuestraron-250000000-de-pesos-nid29062024/" target="_blank" class="text-blue-600 hover:underline">La Nación</a>, <a href="https://www.estafa.info/noticias/america-latina/ocho-de-cada-diez-sitios-de-apuestas-son-ilegales-en-argentina.html" target="_blank" class="text-blue-600 hover:underline">Estafa.info</a>
+                    </p>
+                </div>
+                <div>
+                    <canvas id="operadoresChart"></canvas>
+                </div>
+            </div>
+
+            <h3 class="subsection-title mt-8">Facturación de Operadores Legales</h3>
+            <p class="mb-4">
+                A nivel nacional, la industria de las apuestas online en Argentina genera aproximadamente <strong>$2.400 millones de dólares</strong>.
+            </p>
+
+            <div class="space-y-8">
+                <div>
+                    <h4 class="text-xl font-semibold mb-2">Recaudación de Juego Online - Provincia de Jujuy</h4>
+                    <div class="overflow-x-auto mb-4">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Mes</th>
+                                    <th>Depósitos</th>
+                                    <th>Pagos (Retiros)</th>
+                                    <th>Apostado</th>
+                                    <th>GGR</th>
+                                    <th>GGR Casino</th>
+                                    <th>GGR AADD</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>ene-24</td><td>$ 22.624.745,07</td><td>$ 16.362.237,00</td><td>$ 313.261.272,77</td><td>$ 8.094.862,04</td><td>$ 8.094.862,04</td><td>-</td></tr>
+                                <tr><td>feb-24</td><td>$ 15.228.457,28</td><td>$ 8.399.892,00</td><td>$ 175.478.237,68</td><td>$ 6.851.438,04</td><td>$ 6.851.438,04</td><td>-</td></tr>
+                                <tr><td>mar-24</td><td>$ 30.046.348,43</td><td>$ 21.476.438,66</td><td>$ 376.121.325,14</td><td>$ 10.381.967,08</td><td>$ 10.381.967,08</td><td>-</td></tr>
+                                <tr><td>abr-24</td><td>$ 33.452.404,67</td><td>$ 23.348.214,09</td><td>$ 387.292.399,26</td><td>$ 13.193.510,91</td><td>$ 13.193.510,91</td><td>-</td></tr>
+                                <tr><td>may-24</td><td>$ 38.417.813,89</td><td>$ 21.185.236,17</td><td>$ 432.263.142,40</td><td>$ 17.998.368,48</td><td>$ 17.998.368,48</td><td>-</td></tr>
+                                <tr><td>jun-24</td><td>$ 48.863.452,58</td><td>$ 25.561.560,00</td><td>$ 620.154.642,22</td><td>$ 25.593.143,94</td><td>$ 25.491.760,94</td><td>$ 101.383,00</td></tr>
+                                <tr><td>jul-24</td><td>$ 71.212.081,95</td><td>$ 38.302.980,10</td><td>$ 1.069.411.387,26</td><td>$ 36.054.060,97</td><td>$ 36.055.744,97</td><td>- $ 1.684,00</td></tr>
+                                <tr><td>ago-24</td><td>$ 70.326.103,30</td><td>$ 46.344.791,02</td><td>$ 705.593.861,49</td><td>$ 28.385.986,75</td><td>$ 28.008.814,75</td><td>$ 377.172,00</td></tr>
+                                <tr><td>sept-24</td><td>$ 88.923.455,15</td><td>$ 54.005.375,32</td><td>$ 1.369.635.460,57</td><td>$ 39.255.293,33</td><td>$ 39.042.962,33</td><td>$ 212.331,00</td></tr>
+                                <tr><td>oct-24</td><td>$ 73.545.222,13</td><td>$ 30.912.122,00</td><td>$ 853.698.077,78</td><td>$ 46.886.916,79</td><td>$ 46.774.493,79</td><td>$ 112.423,00</td></tr>
+                                <tr><td>nov-24</td><td>$ 85.299.158,68</td><td>$ 39.697.977,17</td><td>$ 1.040.895.362,61</td><td>$ 50.766.049,32</td><td>$ 50.724.872,32</td><td>$ 41.177,00</td></tr>
+                                <tr><td>dic-24</td><td>$ 111.142.812,72</td><td>$ 49.005.815,92</td><td>$ 1.403.321.797,05</td><td>$ 64.972.998,97</td><td>$ 64.945.501,97</td><td>$ 27.497,00</td></tr>
+                                <tr><td>ene-25</td><td>$ 81.828.140,54</td><td>$ 53.346.827,75</td><td>$ 856.264.248,00</td><td>$ 38.159.570,73</td><td>$ 38.104.393,73</td><td>$ 55.177,00</td></tr>
+                                <tr><td>feb-25</td><td>$ 97.871.946,69</td><td>$ 51.656.236,59</td><td>$ 1.192.680.853,76</td><td>$ 54.600.219,11</td><td>$ 54.488.568,11</td><td>$ 111.651,00</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-xl font-semibold mb-2">Recaudación de Juego Online - Provincia de La Rioja</h4>
+                    <div class="overflow-x-auto mb-4">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Mes</th>
+                                    <th>Depósitos</th>
+                                    <th>Pagos (Retiros)</th>
+                                    <th>Apostado</th>
+                                    <th>GGR</th>
+                                    <th>GGR Casino</th>
+                                    <th>GGR AADD</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>jul-24</td><td>$ 7.097.424,00</td><td>$ 3.198.534,38</td><td>$ 110.032.711,30</td><td>$ 4.474.822,49</td><td>$ 4.443.274,49</td><td>$ 31.548,00</td></tr>
+                                <tr><td>ago-24</td><td>$ 7.263.196,00</td><td>$ 2.514.857,05</td><td>$ 103.626.749,62</td><td>$ 5.086.566,37</td><td>$ 4.997.190,37</td><td>$ 89.376,00</td></tr>
+                                <tr><td>sept-24</td><td>$ 7.198.487,00</td><td>$ 3.780.169,50</td><td>$ 108.622.907,03</td><td>$ 3.347.869,60</td><td>$ 3.198.757,60</td><td>$ 149.112,00</td></tr>
+                                <tr><td>oct-24</td><td>$ 6.770.619,00</td><td>$ 3.569.779,00</td><td>$ 145.877.203,00</td><td>$ 4.183.224,58</td><td>$ 4.172.513,58</td><td>$ 10.711,00</td></tr>
+                                <tr><td>nov-24</td><td>$ 12.281.320,00</td><td>$ 5.607.000,00</td><td>$ 176.603.799,52</td><td>$ 6.892.688,90</td><td>$ 6.846.043,90</td><td>$ 46.645,00</td></tr>
+                                <tr><td>dic-24</td><td>$ 12.551.821,00</td><td>$ 4.456.239,00</td><td>$ 158.266.662,08</td><td>$ 8.673.334,84</td><td>$ 8.672.752,84</td><td>$ 582,00</td></tr>
+                                <tr><td>ene-25</td><td>$ 18.745.255,00</td><td>$ 8.287.430,00</td><td>$ 212.983.497,68</td><td>$ 10.991.756,55</td><td>$ 10.980.176,55</td><td>$ 11.580,00</td></tr>
+                                <tr><td>feb-25</td><td>$ 18.796.336,02</td><td>$ 8.000.700,00</td><td>$ 205.222.260,55</td><td>$ 11.446.296,09</td><td>$ 11.370.109,09</td><td>$ 76.187,00</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <p class="text-sm text-gray-600">
+                Fuente: <a href="https://www.forbesargentina.com/innovacion/las-apuestas-online-ya-generan-2400-millones-dolares-argentina-n17368" target="_blank" class="text-blue-600 hover:underline">Forbes Argentina</a> (para el dato nacional). Datos de Jujuy y La Rioja provistos por el operador.
+            </p>
+        </section>
+
+        <section class="card">
+            <h2 class="section-title">Tráfico y Búsquedas</h2>
+
+            <h3 class="subsection-title">Tráfico y Búsquedas de Operadores Ilegales</h3>
+            <p class="mb-4">
+                Basado en un análisis de Google Trends en la Argentina durante los ultimos 12 meses, las búsquedas más populares relacionadas con "Apuestas deportivas" incluyen:
+            </p>
+            <div class="flex justify-center my-4">
+                <img src="https://i.imgur.com/jqj92Da.png" alt="Captura de Google Trends - Apuestas Deportivas" class="rounded-lg shadow-md max-w-full h-auto">
+            </div>
+            <p class="mb-4 mt-4">
+                Estas son las tendencias de búsqueda más prominentes identificadas para la región.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4 my-4">
+                <img src="https://i.imgur.com/cntX8DY.png" alt="Captura de Google Trends - Jujuy" class="my-2 rounded-lg shadow-md max-w-full h-auto">
+                <img src="https://i.imgur.com/39aF4b0.png" alt="Captura de Google Trends - Catamarca" class="my-2 rounded-lg shadow-md max-w-full h-auto">
+                <img src="https://i.imgur.com/1rI20Di.png" alt="Captura de Google Trends - Santiago del Estero" class="my-2 rounded-lg shadow-md max-w-full h-auto">
+                <img src="https://i.imgur.com/P7tTTpa.png" alt="Captura de Google Trends - La Rioja" class="my-2 rounded-lg shadow-md max-w-full h-auto">
+                <img src="https://i.imgur.com/zGgFW22.png" alt="Captura de Google Trends - Salta" class="my-2 rounded-lg shadow-md max-w-full h-auto">
+            </div>
+
+            <h3 class="subsection-title mt-8">Impacto y Acciones contra la Ilegalidad</h3>
+            <ul class="list-disc list-inside text-md space-y-2">
+                <li>El 80% del juego se da en sitios sin regular, muchos de ellos sin verificación de edad.</li>
+                <li>Autoridades como el Enacom han bloqueado más de 1.000 sitios web de apuestas ilegales en Argentina.</li>
+                <li>Se están intensificando las acciones judiciales contra el juego no autorizado, como el caso "Mil Jugadas" en Misiones.</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2 class="section-title">Conclusión y Recomendaciones</h2>
+            <p class="text-lg mb-4 text-center">
+                El mercado de juego online en el norte de Argentina presenta un panorama complejo, con una fuerte presencia de operadores ilegales que capitalizan la falta de regulación unificada a nivel nacional.
+            </p>
+            <p class="text-lg mb-4 text-center">
+                Es crucial fortalecer los marcos regulatorios provinciales, aumentar la fiscalización y concientizar a la población sobre los riesgos del juego no autorizado, mientras se promueven los operadores legales y responsables.
+            </p>
+            <p class="text-lg text-center font-semibold text-blue-700">
+                ¡Gracias por su atención!
+            </p>
+        </section>
+    </div>
+
+    <script>
+        // Función para manejar las pestañas principales (Legales/Ilegales)
+        function openTab(evt, tabName) {
+            let i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Función para manejar las secciones colapsables
+        function toggleCollapsible(id) {
+            const content = document.getElementById(id);
+            const header = content.previousElementSibling;
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                header.classList.remove('open');
+            } else {
+                content.classList.add('open');
+                header.classList.add('open');
+            }
+        }
+
+        // Inicializar el gráfico de pastel de operadores ilegales/legales
+        window.onload = function() {
+            // Abre la primera pestaña principal por defecto (Operadores Legales)
+            document.getElementById("legales").style.display = "block";
+            // Activa el botón de la pestaña 'Legales'
+            const mainTabButtons = document.querySelectorAll('.flex.justify-center.mb-4 .tab-button');
+            if (mainTabButtons.length > 0) {
+                mainTabButtons[0].classList.add('active');
+            }
+
+            const ctxOperadores = document.getElementById('operadoresChart').getContext('2d');
+            new Chart(ctxOperadores, {
+                type: 'pie',
+                data: {
+                    labels: ['Operadores Ilegales (80%)', 'Operadores Legales (20%)'],
+                    datasets: [{
+                        data: [80, 20],
+                        backgroundColor: [
+                            '#ef4444', /* Rojo para ilegales */
+                            '#22c55e'  /* Verde para legales */
+                        ],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        };
+    </script>
+</body>
+</html>
